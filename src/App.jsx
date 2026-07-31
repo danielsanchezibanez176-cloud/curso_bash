@@ -21,6 +21,14 @@ export const VIEWS = {
   ACHIEVEMENTS: 'achievements',
 }
 
+function getStoredTheme(fallback = 'light') {
+  try {
+    return localStorage.getItem('la30_theme') || fallback
+  } catch {
+    return fallback
+  }
+}
+
 // ── Error Boundary — muestra el error en pantalla en lugar de pantalla en blanco
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -76,7 +84,7 @@ export default function App() {
   const [sidebarOpen,  setSidebarOpen]  = useState(true)
   const [xpNotification, setXpNotification] = useState(null)
   const [lessonTab,    setLessonTab]    = useState('teoria')
-  const [theme, setTheme] = useState(() => localStorage.getItem('la30_theme') || 'light')
+  const [theme, setTheme] = useState(() => getStoredTheme())
   const [showResetConfirm, setShowResetConfirm] = useState(false)
 
   const progress = useProgress()
@@ -100,20 +108,26 @@ export default function App() {
   const currentDayData = courseData.find(d => d.day === selectedDay) || courseData[0]
 
   const resetAllProgress = useCallback(() => {
-    const currentTheme = localStorage.getItem('la30_theme') || theme
-    Object.keys(localStorage)
-      .filter(key => key.startsWith('la30_'))
-      .forEach(key => localStorage.removeItem(key))
-    Object.keys(sessionStorage)
-      .filter(key => key.startsWith('la30_'))
-      .forEach(key => sessionStorage.removeItem(key))
-    localStorage.setItem('la30_theme', currentTheme)
+    const currentTheme = getStoredTheme(theme)
+    try {
+      Object.keys(localStorage)
+        .filter(key => key.startsWith('la30_'))
+        .forEach(key => localStorage.removeItem(key))
+      Object.keys(sessionStorage)
+        .filter(key => key.startsWith('la30_'))
+        .forEach(key => sessionStorage.removeItem(key))
+      localStorage.setItem('la30_theme', currentTheme)
+    } catch {
+      // El reinicio visual sigue funcionando aunque el almacenamiento esté bloqueado.
+    }
     window.location.reload()
   }, [theme])
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
-    localStorage.setItem('la30_theme', theme)
+    try {
+      localStorage.setItem('la30_theme', theme)
+    } catch {}
     document.querySelector('meta[name="theme-color"]')?.setAttribute(
       'content',
       theme === 'dark' ? '#090a0c' : '#f6f4ed'
@@ -182,7 +196,11 @@ export default function App() {
               <span /><span /><span />
             </button>
             <div className="header-brand">
-              <img className="header-tux" src="/tux-linux-transparent.png" alt="" />
+              <img
+                className="header-tux"
+                src={`${import.meta.env.BASE_URL}tux-linux-transparent.png`}
+                alt=""
+              />
               <span className="header-brand__prefix">$</span>
               <span className="header-brand__name">linux_academy</span>
               <span className="header-brand__suffix">--30days</span>

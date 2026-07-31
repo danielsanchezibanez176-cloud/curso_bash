@@ -64,7 +64,10 @@ export default function Dashboard({ progress, courseData, navigate, showXP }) {
           </div>
         </div>
         <div className="dashboard-tux" aria-label="Tux, mascota de Linux">
-          <img src="/tux-linux-transparent.png" alt="Tux, el pingüino de Linux" />
+          <img
+            src={`${import.meta.env.BASE_URL}tux-linux-transparent.png`}
+            alt="Tux, el pingüino de Linux"
+          />
         </div>
       </div>
 
