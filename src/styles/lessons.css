@@ -1,0 +1,622 @@
+/* ============================================================
+   LESSONS — Lecciones, teoría, biblioteca de comandos
+   ============================================================ */
+
+.lesson-view {
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+
+/* ─── HEADER DE LECCIÓN ───────────────────────────────────── */
+.lesson-header {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+  position: relative;
+  overflow: hidden;
+}
+
+.lesson-header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--green), var(--blue), var(--cyan));
+}
+
+.lesson-header::after {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -5%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, var(--green-glow), transparent 70%);
+  pointer-events: none;
+}
+
+.lesson-header__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.lesson-header__day {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--green);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-2);
+}
+
+.lesson-header__title {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.lesson-header__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.lesson-header__xp {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: rgba(255,215,0,0.1);
+  border: 1px solid rgba(255,215,0,0.2);
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+
+.lesson-header__xp-value {
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--yellow);
+}
+
+.lesson-header__xp-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.2;
+}
+
+/* Objetivos del día */
+.lesson-objectives {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  border-left: 3px solid var(--green);
+}
+
+.lesson-objectives__title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--green);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-3);
+}
+
+.lesson-objectives__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.lesson-objective {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.lesson-objective::before {
+  content: '▸';
+  color: var(--green);
+  flex-shrink: 0;
+  font-size: 0.8rem;
+}
+
+/* ─── TABS DE LECCIÓN ─────────────────────────────────────── */
+.lesson-tabs {
+  display: flex;
+  gap: var(--space-1);
+  margin-bottom: var(--space-6);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-pill);
+  padding: 4px;
+  width: fit-content;
+  border: 1px solid var(--border);
+}
+
+.lesson-tab {
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-pill);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.lesson-tab:hover { color: var(--text-primary); }
+
+.lesson-tab.active {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-bright);
+}
+
+.lesson-tab__badge {
+  width: 18px;
+  height: 18px;
+  background: var(--green);
+  color: #000;
+  border-radius: 50%;
+  font-size: 0.65rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── SECCIÓN DE TEORÍA ───────────────────────────────────── */
+.theory-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* Bloque técnico vs simple */
+.theory-dual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.theory-block {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+.theory-block--technical { border-left: 3px solid var(--blue); }
+.theory-block--simple    { border-left: 3px solid var(--green); }
+
+.theory-block__label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  margin-bottom: var(--space-3);
+}
+
+.theory-block--technical .theory-block__label { color: var(--blue); }
+.theory-block--simple    .theory-block__label { color: var(--green); }
+
+.theory-block__text {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* Caso real */
+.real-case {
+  background: var(--bg-card);
+  border: 1px solid var(--border-green);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  position: relative;
+}
+
+.real-case__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--green);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  margin-bottom: var(--space-3);
+  background: var(--green-dark);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-green);
+}
+
+.real-case__title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-3);
+}
+
+.real-case__text {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* Diagrama de estructura */
+.diagram-block {
+  background: #050709;
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+}
+
+.diagram-block__title {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-4);
+}
+
+.diagram-tree {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  white-space: pre;
+}
+
+.diagram-tree .tree-dir    { color: var(--blue);   font-weight: 600; }
+.diagram-tree .tree-file   { color: var(--text-secondary); }
+.diagram-tree .tree-exec   { color: var(--green);  font-weight: 600; }
+.diagram-tree .tree-branch { color: var(--text-muted); }
+.diagram-tree .tree-root   { color: var(--cyan);   font-weight: 700; }
+
+/* ─── BIBLIOTECA DE COMANDOS ──────────────────────────────── */
+.command-library {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.command-library__intro {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-2);
+}
+
+/* Tarjeta de comando */
+.command-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-base);
+}
+
+.command-card:hover {
+  border-color: var(--border-green);
+}
+
+.command-card.expanded {
+  border-color: var(--border-green);
+  box-shadow: var(--shadow-green);
+}
+
+/* Header de tarjeta de comando */
+.command-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.command-card__header:hover { background: var(--bg-card-hover); }
+
+.command-card.expanded .command-card__header {
+  background: var(--green-dark);
+  border-bottom: 1px solid var(--border-green);
+}
+
+.command-card__name {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--green);
+  min-width: 100px;
+}
+
+.command-card.expanded .command-card__name { color: #00ff88; }
+
+.command-card__brief {
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.command-card__toggle {
+  color: var(--text-muted);
+  transition: transform var(--transition-base);
+  flex-shrink: 0;
+}
+
+.command-card.expanded .command-card__toggle {
+  transform: rotate(180deg);
+  color: var(--green);
+}
+
+/* Contenido expandido */
+.command-card__body {
+  padding: var(--space-5);
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+}
+
+.command-card.expanded .command-card__body {
+  display: grid;
+}
+
+.cmd-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.cmd-section--full {
+  grid-column: 1 / -1;
+}
+
+.cmd-section__title {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.cmd-section__text {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Bloque de sintaxis */
+.syntax-block {
+  background: #050709;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+.syntax-line {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-1) 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.syntax-line:last-child { border-bottom: none; }
+
+.syntax-cmd    { color: var(--green); font-weight: 600; }
+.syntax-flag   { color: var(--blue); }
+.syntax-arg    { color: var(--yellow); }
+.syntax-desc   { color: var(--text-muted); font-size: 0.75rem; }
+
+/* Ejemplo de comando */
+.cmd-example {
+  background: #050709;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: var(--space-2);
+}
+
+.cmd-example__prompt {
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.cmd-example__output {
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  white-space: pre;
+}
+
+/* Lista de errores comunes */
+.error-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.error-item {
+  background: var(--red-glow);
+  border: 1px solid rgba(255,71,87,0.2);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+}
+
+.error-item__code {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--red);
+  margin-bottom: var(--space-1);
+}
+
+.error-item__desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* Seguridad */
+.security-note {
+  background: rgba(155,93,255,0.05);
+  border: 1px solid rgba(155,93,255,0.2);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  border-left: 3px solid var(--purple);
+}
+
+.security-note__label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--purple);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+}
+
+.security-note__text {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ─── RECURSOS EXTERNOS ───────────────────────────────────── */
+.resource-links {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+.resource-links__title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+.resource-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.resource-link:hover {
+  border-color: var(--border-blue);
+  color: var(--blue);
+  background: var(--blue-dark);
+}
+
+.resource-link__icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.resource-link__name {
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: var(--text-primary);
+}
+
+.resource-link__url {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* ─── NAVEGACIÓN ENTRE LECCIONES ──────────────────────────── */
+.lesson-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border);
+}
+
+.lesson-nav__btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.lesson-nav__btn:hover {
+  border-color: var(--border-blue);
+  color: var(--blue);
+}
+
+.lesson-nav__btn--next {
+  background: var(--green);
+  color: #000;
+  border-color: var(--green);
+}
+
+.lesson-nav__btn--next:hover {
+  background: var(--green-dim);
+  box-shadow: var(--shadow-green);
+  transform: translateY(-1px);
+}
+
+/* ─── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .theory-dual { grid-template-columns: 1fr; }
+  .command-card__body { grid-template-columns: 1fr; }
+  .resource-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .lesson-header__title { font-size: 1.4rem; }
+  .lesson-tabs { width: 100%; overflow-x: auto; }
+  .lesson-tab  { padding: var(--space-2) var(--space-3); font-size: 0.8rem; }
+}
