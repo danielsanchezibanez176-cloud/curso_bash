@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, Component } from 'react'
+import React, { useState, useEffect, useCallback, useRef, Component } from 'react'
 import Dashboard from './components/Dashboard.jsx'
 import Sidebar from './components/Sidebar.jsx'
 import Lesson from './components/Lesson.jsx'
@@ -86,6 +86,9 @@ export default function App() {
   const [lessonTab,    setLessonTab]    = useState('teoria')
   const [theme, setTheme] = useState(() => getStoredTheme())
   const [showResetConfirm, setShowResetConfirm] = useState(false)
+  const [navigationHistory, setNavigationHistory] = useState([])
+  const navigationHistoryRef = useRef([])
+  const [labActiveSteps, setLabActiveSteps] = useState({})
 
   const progress = useProgress()
 
@@ -95,14 +98,36 @@ export default function App() {
   }, [])
 
   const navigate = useCallback((view, day = null) => {
+    const nextDay = day ?? selectedDay
+    if (view === currentView && nextDay === selectedDay) return
+
+    setNavigationHistory(previous => {
+      const next = [...previous, { view: currentView, day: selectedDay }].slice(-3)
+      navigationHistoryRef.current = next
+      return next
+    })
     setCurrentView(view)
-    if (day !== null) setSelectedDay(day)
+    setSelectedDay(nextDay)
+  }, [currentView, selectedDay])
+
+  const goBack = useCallback(() => {
+    const previous = navigationHistoryRef.current.at(-1)
+    if (!previous) return
+
+    const next = navigationHistoryRef.current.slice(0, -1)
+    navigationHistoryRef.current = next
+    setNavigationHistory(next)
+    setCurrentView(previous.view)
+    setSelectedDay(previous.day)
   }, [])
 
   const handleDaySelect = useCallback((day) => {
-    setSelectedDay(day)
-    setCurrentView(VIEWS.LESSON)
+    navigate(VIEWS.LESSON, day)
     setLessonTab('teoria')
+  }, [navigate])
+
+  const setLabActiveStep = useCallback((day, step) => {
+    setLabActiveSteps(previous => ({ ...previous, [day]: step }))
   }, [])
 
   const currentDayData = courseData.find(d => d.day === selectedDay) || courseData[0]
@@ -153,7 +178,13 @@ export default function App() {
       case VIEWS.TERMINAL:
         return <Terminal progress={progress} showXP={showXP} dayData={currentDayData} />
       case VIEWS.LABORATORY:
-        return <Laboratory {...commonProps} />
+        return (
+          <Laboratory
+            {...commonProps}
+            activeStep={labActiveSteps[selectedDay] ?? 0}
+            setActiveStep={step => setLabActiveStep(selectedDay, step)}
+          />
+        )
       case VIEWS.QUIZ:
         return <Quiz {...commonProps} />
       case VIEWS.MISSIONS:
@@ -194,6 +225,16 @@ export default function App() {
           <header className="app-header">
             <button className="hamburger" onClick={() => setSidebarOpen(p => !p)} aria-label="Toggle sidebar">
               <span /><span /><span />
+            </button>
+            <button
+              className="history-back"
+              onClick={goBack}
+              disabled={navigationHistory.length === 0}
+              aria-label="Volver a la pantalla anterior"
+              title="Volver"
+            >
+              <BackIcon />
+              <span>Volver</span>
             </button>
             <div className="header-brand">
               <img
@@ -292,4 +333,7 @@ function TrophyIcon() {
 }
 function ResetIcon() {
   return <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v6h6"/></svg>
+}
+function BackIcon() {
+  return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
 }

@@ -322,6 +322,34 @@ h1,h2,h3,h4,h5,h6 {
 }
 .hamburger:hover span { background: var(--text-primary); }
 
+.history-back {
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.history-back:hover:not(:disabled) {
+  color: var(--text-primary);
+  border-color: var(--yellow);
+  background: var(--yellow-dark);
+}
+
+.history-back:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
 .header-brand {
   font-family: var(--font-mono);
   font-size: 0.9rem;
@@ -763,6 +791,8 @@ code {
     grid-template-columns: 1fr;
   }
   .header-nav__btn span { display: none; }
+  .history-back span { display: none; }
+  .history-back { width: 36px; padding: 0; justify-content: center; }
   .header-level__title  { display: none; }
   .header-brand__suffix { display: none; }
   .theme-toggle { min-width: 36px; width: 36px; padding: 0; height: 36px; }

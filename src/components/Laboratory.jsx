@@ -3,9 +3,8 @@ import { VIEWS } from '../App.jsx'
 import { XP_REWARDS } from '../hooks/useProgress.js'
 import { getTerminalActivitySequence, getTerminalActivitySince } from '../utils/storage.js'
 
-export default function Laboratory({ dayData, progress, showXP, navigate }) {
+export default function Laboratory({ dayData, progress, showXP, navigate, activeStep = 0, setActiveStep }) {
   const lab = dayData?.lab
-  const [activeStep, setActiveStep] = useState(0)
   const [shownHints, setShownHints] = useState({})
   const [copied, setCopied] = useState(null)
   const [verificationMessage, setVerificationMessage] = useState('')
