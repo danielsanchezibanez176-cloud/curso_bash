@@ -78,14 +78,15 @@ function checkCondition(condition, context) {
 
     case 'command_executed': {
       if (!context.lastCommand) return false
-      const cmd = context.lastCommand.toLowerCase().trim()
-      return cmd === condition.command || cmd.startsWith(condition.command + ' ')
+      const cmd = normalizeCommand(context.lastCommand)
+      const expected = normalizeCommand(condition.command)
+      return cmd === expected || cmd.startsWith(expected + ' ')
     }
 
     case 'command_with_flag': {
       if (!context.lastCommand) return false
-      const raw = context.lastCommand.toLowerCase()
-      return raw.startsWith(condition.command) && raw.includes(condition.flag)
+      const [command] = normalizeCommand(context.lastCommand).split(' ')
+      return command === condition.command.toLowerCase() && context.lastCommand.includes(condition.flag)
     }
 
     case 'command_matches': {
@@ -191,6 +192,10 @@ function checkCondition(condition, context) {
     default:
       return false
   }
+}
+
+function normalizeCommand(command) {
+  return String(command).toLowerCase().trim().replace(/\s+/g, ' ')
 }
 
 // ─── Helpers para courseData ─────────────────────────────────

@@ -522,7 +522,7 @@ esac`,
     { id: 'm1d13', title: 'Crea admin_lib.sh', description: 'Archivo de librería en scripts/', hint: '$ touch ~/scripts/admin_lib.sh', xp: 25, condition: condFile('~/scripts/admin_lib.sh') },
     { id: 'm2d13', title: 'Usa source para importar', description: 'source ~/scripts/admin_lib.sh', hint: '$ source ~/scripts/admin_lib.sh', xp: 35, condition: condCmd('source') },
     { id: 'm3d13', title: 'Define una función', description: 'Escribe una función en el shell', hint: '$ mi_funcion() { echo "hola"; }', xp: 30, condition: { type: 'command_matches', pattern: '\\(\\)\\s*\\{' } },
-    { id: 'm4d13', title: 'Llama a una función', description: 'Ejecuta la función que creaste', hint: '$ mi_funcion', xp: 20, condition: condCmd('log_info') },
+    { id: 'm4d13', title: 'Llama a una función', description: 'Ejecuta la función que creaste', hint: '$ mi_funcion', xp: 20, condition: condCmd('mi_funcion') },
   ],
   resources: [
     { name: 'Bash Functions', url: 'https://linuxize.com/post/bash-functions/', icon: '📖' },

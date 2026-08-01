@@ -6,6 +6,8 @@
 import { getFS, NODE_TYPE }        from './filesystem.js'
 import { getTerminalHistory }       from './storage.js'
 
+const shellFunctions = new Set()
+
 // Tipos de línea de salida (para colorear)
 export const OUT = {
   TEXT:    'text',
@@ -290,7 +292,14 @@ function dispatch(command, args, fs) {
     case 'function':return [line('[simulador] Función Bash definida.', OUT.SUCCESS)]
     default:
       if (command.startsWith('./')) return scriptCmd(command, args, fs)
-      if (/^[a-zA-Z_][\w-]*\(\)$/.test(command)) return [line(`[simulador] Función '${command.slice(0, -2)}' definida.`, OUT.SUCCESS)]
+      if (/^[a-zA-Z_][\w-]*\(\)$/.test(command)) {
+        const name = command.slice(0, -2)
+        shellFunctions.add(name)
+        return [line(`[simulador] Función '${name}' definida.`, OUT.SUCCESS)]
+      }
+      if (shellFunctions.has(command)) {
+        return [line(`[simulador] Ejecutando función '${command}'.`, OUT.SUCCESS)]
+      }
       return [line(`${command}: command not found`, OUT.ERROR), line(`Escribe 'help' para ver los comandos disponibles.`, OUT.SYSTEM)]
   }
 }

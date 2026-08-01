@@ -102,14 +102,6 @@ export function useTerminal({ dayData, completedMissionIds = [], onMissionComple
     // Procesar comando
     const output = executeCommand(trimmed)
 
-    // Comando clear
-    if (output.length === 1 && output[0]?.type === 'clear') {
-      setLines(BOOT_MESSAGES)
-      return
-    }
-
-    appendLines(output)
-
     // Contexto para evaluador de misiones
     const parts      = trimmed.split(/\s+/)
     const lastCommand = parts[0]
@@ -143,6 +135,15 @@ export function useTerminal({ dayData, completedMissionIds = [], onMissionComple
     if (onFirstCommand && trimmed !== 'help') {
       onFirstCommand()
     }
+
+    // Evaluar clear antes de limpiar la vista: de otro modo el retorno
+    // temprano impedía que la misión asociada se completara.
+    if (output.length === 1 && output[0]?.type === 'clear') {
+      setLines(BOOT_MESSAGES)
+      return
+    }
+
+    appendLines(output)
 
   }, [appendLines, appendPromptEcho, dayData, completedMissionIds, sessionMissions, onMissionComplete, onFirstCommand])
 
@@ -267,7 +268,9 @@ export function useTerminal({ dayData, completedMissionIds = [], onMissionComple
       case 'l':
         if (e.ctrlKey) {
           e.preventDefault()
-          setLines(BOOT_MESSAGES)
+          // Ctrl+L se enseña como equivalente de clear; usa el mismo flujo
+          // para que la misión también quede registrada.
+          runCommand('clear')
         }
         break
       default:
@@ -277,7 +280,7 @@ export function useTerminal({ dayData, completedMissionIds = [], onMissionComple
           setShowSuggestions(false)
         }
     }
-  }, [handleEnter, handleArrowUp, handleArrowDown, handleTab, inputValue, showSuggestions, appendLines, appendPromptEcho])
+  }, [handleEnter, handleArrowUp, handleArrowDown, handleTab, inputValue, showSuggestions, appendLines, appendPromptEcho, runCommand])
 
   // ── Seleccionar sugerencia ────────────────────────────────
 
