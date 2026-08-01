@@ -57,7 +57,7 @@ export default function Sidebar({
 
       <nav className="sidebar-nav">
         <button className={`sidebar-nav__item ${currentView===VIEWS.DASHBOARD?'active':''}`} onClick={()=>navigate(VIEWS.DASHBOARD)}>
-          <DashIcon /> Dashboard
+          <DashIcon /> Inicio
         </button>
         <button className={`sidebar-nav__item ${currentView===VIEWS.TERMINAL?'active':''}`} onClick={()=>navigate(VIEWS.TERMINAL)}>
           <TermIcon /> Terminal
